@@ -18,5 +18,14 @@ public abstract class Animal {
     public abstract void mostrar();
     
     public abstract String getChip();
+    
+    public boolean isAdoptado() {
+        return adoptado;
+    }
+    
+    public void setAdoptado(boolean adoptado) {
+        this.adoptado = adoptado;
+    }
+
 
 }

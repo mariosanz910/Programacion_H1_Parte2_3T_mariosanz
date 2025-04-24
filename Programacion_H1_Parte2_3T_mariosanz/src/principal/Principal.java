@@ -1,4 +1,5 @@
 package principal;
+import modulo.Adopcion;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class Principal {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Animal> listaAnimales = new ArrayList<>();
+        ArrayList<Adopcion> listaAdopciones = new ArrayList<>();
 
         int opcion = 0;
         
@@ -19,8 +21,11 @@ public class Principal {
             System.out.println("--- MENÚ ---");
             System.out.println("1. Añadir animal");
             System.out.println("2. Ver todos los animales");
-            System.out.println("3. Buscar animal por chip");  
-            System.out.println("4. Salir");
+            System.out.println("3. Buscar animal por chip"); 
+            System.out.println("4. Realizar adopción");
+            System.out.println("5. Dar de baja");
+            System.out.println("6. Mostrar estadísticas de gatos");
+            System.out.println("7. Salir");
             System.out.print("Elige opción: ");
             opcion = sc.nextInt();
             sc.nextLine();  
@@ -105,12 +110,67 @@ public class Principal {
 
 
             } else if (opcion == 4) {
+                System.out.print("Introduce el chip del animal a adoptar: ");
+                String chipAdop = sc.nextLine();
+                for (int i = 0; i < listaAnimales.size(); i++) {
+                    Animal a = listaAnimales.get(i);
+                    if (a.getChip().equals(chipAdop)) {
+                        if (a.isAdoptado() == false) {
+                            System.out.print("Nombre del adoptante: ");
+                            String nombreAdoptante = sc.nextLine();
+                            System.out.print("DNI del adoptante: ");
+                            String dni = sc.nextLine();
+
+                            a.setAdoptado(true);
+                            Adopcion adopcion = new Adopcion(chipAdop, nombreAdoptante, dni);
+                            listaAdopciones.add(adopcion);  // Se añade la adopción a la lista de adopciones
+                            System.out.println("Adopción realizada con éxito.");
+                            break;
+                        } else {
+                            System.out.println("El animal ya ha sido adoptado.");
+                            break;
+                        }
+                    }
+                }
+            } else if (opcion == 5) {
+                System.out.print("Introduce el número de chip del animal a dar de baja: ");
+                String chipBaja = sc.nextLine();
+                
+                for (int i = 0; i < listaAnimales.size(); i++) {
+                    Animal a = listaAnimales.get(i);
+                    if (a.getChip().equals(chipBaja)) {
+                        listaAnimales.remove(i);
+                        System.out.println("El animal con chip " + chipBaja + " ha sido dado de baja.");
+                        break;
+                    }
+                }
+
+                System.out.println("No se encontró el animal con chip: " + chipBaja);
+            } else if (opcion == 6) {
+                int totalGatos = 0;
+                int gatosConLeucemia = 0;
+
+                for (Animal a : listaAnimales) {
+                    if (a instanceof Gato) {
+                        totalGatos++;
+                    }
+                    Gato gato = (Gato) a;
+					if (gato.testLeucemia()) {  // Verifica si el gato tiene leucemia
+                        gatosConLeucemia++;  // Incrementa el contador de gatos con leucemia
+                    }
+                }
+
+                System.out.println("Total de gatos: " + totalGatos);
+                System.out.println("Gatos con test de leucemia positivo: " + gatosConLeucemia);
+            }
+
+            else if (opcion == 7) {
                 System.out.println("Saliendo...");
             } else {
                 System.out.println("Opción no válida.");
             }
         }
-
+        
         sc.close();
     }
 }

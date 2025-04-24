@@ -21,5 +21,8 @@ public class Gato extends Animal {
     public String getChip() { // Método para encotnrar el animal por el número de su chip, cuando se requiera, esta función valdrá como el núemro del chip del animal
         return chip;
     }
-
+    
+    public boolean testLeucemia() {
+        return testLeucemia;
+    }
 }
